@@ -94,3 +94,12 @@
         resource_tags:
           Name: vprofile_privsub3
       register: privsub3_out #log output to variable
+
+    - name: Internet Gateway Setup
+      ec2_vpc_igw: #Internet Gateway Module
+        vpc_id: "{{ vpcout.vpc.id }}"
+        region: "{{ region }}"
+        state: "{{ state }}"
+        resource_tags:
+          Name: vprofile_IGW
+        register: igw_out
