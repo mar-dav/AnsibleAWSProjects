@@ -118,3 +118,27 @@
             - dest: 0.0.0.0/0
               gateway_id: "{{igw_out.gateway_id}}"
       register: pubRT_out
+
+    - name: Create NAT gateway for private subnet #Gateways are expensive, delete after run. PoC only.
+      ec2_vpc_nat_gateway:
+        state: "{{state}}"
+        subnet_id: "{{ pubsub1_out.subnet.id }}"
+        wait: yes
+        region: "{{ region }}"
+        if_exist_do_not_create: true #A nat gateway will be created every time the playbook is run. $$$
+      register: natGW_out
+
+    - name: Set up private subnet route table
+      ec2_vpc_route_table:
+        vpc_id: "{{vpcout.vpc.id}}"
+        region: "{{ region }}"
+        tags:
+          Name: vprofile-privRT
+        subnets:
+          - "{{ priv1.subnet.id }}"
+          - "{{ priv2.subnet.id }}"
+          - "{{ priv3.subnet.id }}"
+        routes:
+          - dest: 0.0.0.0/0
+            gateway_id: "{{ NATGW_out.gateway_id }}"
+      register: pubRT_out
