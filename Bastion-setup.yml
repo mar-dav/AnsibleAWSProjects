@@ -53,6 +53,6 @@
           Name: "Bastion_Host"
           Project: KPM interview
           Owner: Mars
-        group_id: "{{BastionSG_out.group_id}}"
+        group_id: "{{bastionSG_out.group_id}}"
       register: bastionHost_out
 
