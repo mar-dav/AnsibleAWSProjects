@@ -42,7 +42,7 @@
         cidr: "{{ PubSub2Cidr }}"
         map_public: yes
         resource_tags:
-          Name: vprofile_pubsub1
+          Name: vprofile_pubsub2
       register: pubsub2_out #log output to variable
 
     - name: Create public subnet 3 - Zone 3
@@ -54,8 +54,10 @@
         cidr: "{{ PubSub3Cidr }}"
         map_public: yes
         resource_tags:
-          Name: vprofile_pubsub1
+          Name: vprofile_pubsub3
       register: pubsub3_out #log output to variable
+
+      ############Create private subnets##############
 
     - name: Create priv subnet 1 - Zone 1
       ec2_vpc_subnet:
