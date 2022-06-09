@@ -1,0 +1,58 @@
+---
+- name: Setup Bastian Host
+  hosts: localhost
+  connection: local
+  gather_facts: false
+  tasks:
+    - name: Import VPC setup Variable
+      include_vars: vars/bastion_setup #use data from vars/bastion_setup
+
+    - name: Import VPC setup variable
+      include_vars: vars/output_vars #use the file we generated from vpc-setup.yml on line 176.
+
+    - name: Create project EC2 key
+      ec2_key: #key declaration
+        name: vprofile-key
+        region: "{{region}}"
+      register: key_out
+
+    - name: Save private key as bastion-key.pem
+      copy:
+        content: "{{key_out.private_key}}" #get private key from the above declaration.
+        dest: "./bastion-key.pem"
+        mode: 0600 #u+rw
+      when: key_out.changed #limit action to when key contents are created OR modified.
+
+    - name: Create security group for bastion host
+      ec2_group:
+        name: bastion-host-sg
+        description: Allow ssh from anywhere within our security group.
+        region: "{{region}}"
+        vpc_id: "{{vpcid}}"
+        rules:
+          - proto: tcp
+            from_port: 22
+            to_port: 22
+            cidr_ip: "{{MYIP}}"
+        register: bastionSG_out
+
+    - name: Create our Bastion Host
+      ec2:
+        key_name: vprofile-key
+        instance_type: t2.micro
+        region: "{{region}}"
+        image: "{{ bastion_ami }}"
+        wait: yes #wait until machine is ready
+        wait_timeout: 300 #if there is a failure, timeout after 300s
+        instance_tags:
+          Name: "Bastion_Host"
+          Project: KPM interview
+          Owner: Mars
+        exact_count: 1 #prevent the creation of multiple bastion machines
+        count_tag: #these are the variables exact_count will check against. It will not launch if these tags are already present.
+          Name: "Bastion_Host"
+          Project: KPM interview
+          Owner: Mars
+        group_id: "{{BastionSG_out.group_id}}"
+      register: bastionHost_out
+
