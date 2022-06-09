@@ -170,3 +170,4 @@
         privsub1id: "{{privsub1_out.subnet.id}}"
         privsub2id: "{{privsub2_out.subnet.id}}"
         privsub3id: "{{privsub3_out.subnet.id}}"
+        cacheable: yes #Add variable to fact cache.
