@@ -22,13 +22,13 @@
         var: vpcout #store in vpcout
 
     - name: Create public subnet 1 - Zone 1
-        ec2_vpc_subnet:
-          vpc_id: "{{vpcout.vpc.id}}"
-          region: "{{ region }}"
-          az: "{{ zone1 }}" # all using vars from vpc_setup
-          state: "{{ state }}"
-          cidr: "{{ PubSub1Cidr }}"
-          map_public: yes
-          resource_tags:
-            Name: vprofile-pubsub1
+      ec2_vpc_subnet:
+        vpc_id: "{{vpcout.vpc.id}}"
+        region: "{{ region }}"
+        az: "{{ zone1 }}" # all using vars from vpc_setup
+        state: "{{ state }}"
+        cidr: "{{ PubSub1Cidr }}"
+        map_public: yes
+        resource_tags:
+          Name: vprofile-pubsub1
         register: pubsub1_out #log output to variable
