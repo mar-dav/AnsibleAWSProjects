@@ -1,0 +1,64 @@
+---
+- hosts: localhost
+  become: yes
+  gather_facts: no
+  vars:
+    repo_url: https://github.com/mar-dav/KPM-Power-threejs-Model.git
+    repo_path: /home/ubuntu/KPM
+    repo_branch: main
+  tasks:
+    - name: "apt update"
+      apt:
+        update_cache: yes
+
+    - name: "Install Apache"
+      apt: name=apache2 state=present update_cache=yes
+
+    - name: "Ensure Apache service is started."
+      service: name=apache2 state=started enabled=yes
+
+    - name: "Add nodejs apt key"
+      apt_key:
+        url: https://deb.nodesource.com/gpgkey/nodesource.gpg.key
+        state: present
+
+    - name: "Add nodejs 13.x ppa for apt repo"
+      apt_repository:
+        repo: deb https://deb.nodesource.com/node_13.x bionic main
+        update_cache: yes
+
+    - name: "Install nodejs"
+      apt:
+        update_cache: yes
+        name: nodejs
+        state: present
+
+    - name: "Install NPM-distributed command-line tools"
+      npm:
+        global: yes
+        name: "{{ item }}"
+      with_items:
+        - firebase-tools #Code borrowed from https://kyle.pericak.com/nodejs-ansible.html
+
+    - name: Clone KPM Power Node.js webapp.
+      ansible.builtin.git:
+        repo: "{{repo_url}}"
+        dest: "{{repo_path}}"
+        single_branch: yes
+        version: "{{repo_branch}}"
+
+    - name: install dependencies
+      npm:
+        path: "{{repo_path}}"
+        state: present
+
+    - name: build Node.js webapp
+        command: npm run build
+        args:
+          chdir: "{{ repo_path }}"
+
+    - name: Copy folder to /var/www
+      copy:
+        src: "{{ repo_path }}/build"
+        dest: /var/www
+        remote_src: no

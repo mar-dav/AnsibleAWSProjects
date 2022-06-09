@@ -52,13 +52,13 @@ resource "aws_security_group" "Devops_Security_Group" {
   vpc_id = aws_vpc.DevOps-VPC.id
 
 
-#allow SSH inbound traffic
-  # ingress {
-  #   from_port = 22
-  #   to_port = 22 #port 22 is SSH
-  #   protocol = "tcp" #tcp is the protocol
-  #   cidr_blocks = ["0.0.0.0/0"] #Allows connections from all sources
-  # }
+allow SSH inbound traffic
+   ingress {
+     from_port = 22
+     to_port = 22 #port 22 is SSH
+     protocol = "tcp" #tcp is the protocol
+     cidr_blocks = ["0.0.0.0/0"] #Allows connections from all sources
+   }
 
   dynamic "ingress" { #dynamic allows us to iteratively use content from the variables.tf file
     iterator = port
