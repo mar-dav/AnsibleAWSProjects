@@ -52,12 +52,7 @@
         state: present
 
     - name: build Node.js webapp
-      command: npm run build
+      command: npm run dev
       args:
         chdir: "{{ repo_path }}"
 
-    - name: Copy folder to /var/www
-      copy:
-        src: "{{ repo_path }}/build"
-        dest: /var/www
-        remote_src: no
