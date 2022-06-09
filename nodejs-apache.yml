@@ -5,7 +5,7 @@
   vars:
     repo_url: https://github.com/mar-dav/KPM-Power-threejs-Model.git
     repo_path: /home/ubuntu/KPM
-    repo_build: /home/ubuntu/KPM/dist
+    repo_build: /home/ubuntu/KPM/dist/
     repo_branch: main
     web_dir: /var/www/html/
   tasks:
