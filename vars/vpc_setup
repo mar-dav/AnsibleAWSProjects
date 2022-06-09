@@ -1,3 +1,4 @@
+#We are creating a new VPC in this file and defining variables which we will use in vpc-setup.yml
 vpc_name: "Vprofile-vpc"
 
 #VPC Range
