@@ -139,11 +139,11 @@
           - "{{ privsub2_out.subnet.id }}"
           - "{{ privsub3_out.subnet.id }}"
         routes:
-          - dest: 0.0.0.0/0
+          - dest: 0.0.0.0/0 #0.0.0.0 = anywhere
             gateway_id: "{{ natGW_out.nat_gateway_id }}"
       register: privRT_out
 
-    - debug:
+    - debug: #print all the IDs to terminal
         var: "{{item}}" #variable of loop
       loop: #cycle through all the ids we have created & print IDs
         - vpcout.vpc.id
@@ -158,7 +158,7 @@
         - privsub2_out.subnet.id
         - privsub3_out.subnet.id
 
-    - set_fact:
+    - set_fact: #set_fact allows us to create new variables
         vpcoutid: "{{vpcout.vpc.id}}"
         igwid: "{{igw_out.gateway_id}}"
         pubRTid: "{{pubRT_out.route_table.id}}"
@@ -173,6 +173,6 @@
         cacheable: yes #Add variable to fact cache.
 
     - name: Create variables file for vpc output
-      copy: #copy data to a file located as /vars/output_vars
+      copy: #Creates new file /vars/output_vars using content (our infrastructure IDs)
         content: "vpcid: {{vpcout.vpc.id}}\nigwid: {{igw_out.gateway_id}}\npubRTid: {{pubRT_out.route_table.id}}\nprivRTid: {{privRT_out.route_table.id}}\nnatGWid: {{natGW_out.nat_gateway_id}}\npubsub1id: {{pubsub1_out.subnet.id}}\npubsub2id: {{pubsub2_out.subnet.id}}\npubsub3id: {{pubsub3_out.subnet.id}}\nprivsub1id: {{privsub1_out.subnet.id}}\nprivsub2id: {{privsub2_out.subnet.id}}\nprivsub3id: {{privsub3_out.subnet.id}}"
         dest: vars/output_vars
