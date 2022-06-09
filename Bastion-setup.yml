@@ -54,5 +54,6 @@
           Project: KPM interview
           Owner: Mars
         group_id: "{{bastionSG_out.group_id}}"
+        vpc_subnet_id: "{{pubsub1id}}"
       register: bastionHost_out
 
