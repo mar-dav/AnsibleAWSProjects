@@ -31,4 +31,4 @@
         map_public: yes
         resource_tags:
           Name: vprofile-pubsub1
-        register: pubsub1_out #log output to variable
+      register: pubsub1_out #log output to variable
