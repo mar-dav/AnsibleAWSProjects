@@ -157,3 +157,16 @@
         - privsub1_out.subnet.id
         - privsub2_out.subnet.id
         - privsub3_out.subnet.id
+
+    - set_fact:
+        vpcoutid: "{{vpcout.vpc.id}}"
+        igwid: "{{igw_out.gateway_id}}"
+        pubRTid: "{{pubRT_out.route_table.id}}"
+        privRTid: "{{privRT_out.route_table.id}}"
+        natGWid: "{{natGW_out.nat_gateway_id}}"
+        pubsub1id: "{{pubsub1_out.subnet.id}}"
+        pubsub2id: "{{pubsub2_out.subnet.id}}"
+        pubsub3id: "{{pubsub3_out.subnet.id}}"
+        privsub1id: "{{privsub1_out.subnet.id}}"
+        privsub2id: "{{privsub2_out.subnet.id}}"
+        privsub3id: "{{privsub3_out.subnet.id}}"
