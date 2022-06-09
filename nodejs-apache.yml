@@ -59,7 +59,7 @@
         chdir: "{{ repo_path }}"
 
     - name: Copy build to /var/www/html
-      copy:
-        src: "{{ repo_build }}"
-        dest: "{{ web_dir }}"
+      synchronize:
+        src: "{{repo_build}}"
+        dst: "{{web_dir}}"
 
