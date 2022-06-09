@@ -1,0 +1,18 @@
+- hosts: localhost
+  connection: local
+  gather_facts: False #This is our controller thus we don't need to gather facts
+  tasks:
+    - name: Import VPC Variables
+      include_vars: vars/vpc_setup #vars folder directory
+
+      #using ansible ec2_vpc_net documentation
+    - name: Create vprofile VPC
+      ec2_vpc_net:
+        name: "{{vpc_name}}" #use VPC name created in outline using j2 var
+        cidr_block: "{{vpcCidr}}" #use VPC cidr block defined in outline
+        region: "{{region}}"
+        dns_support: yes
+        dns_hostnames: yes # default values
+        tenancy: default
+        state: "{{state}}"
+      register: vpcout #capture output to variable
