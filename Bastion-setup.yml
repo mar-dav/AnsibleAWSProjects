@@ -18,7 +18,7 @@
 
     - name: Save private key as bastion-key.pem
       copy:
-        content: "{{key_out.private_key}}" #get private key from the above declaration.
+        content: "{{key_out.key.private_key}}" #get private key from the above declaration.
         dest: "./bastion-key.pem"
         mode: 0600 #u+rw
       when: key_out.changed #limit action to when key contents are created OR modified.
