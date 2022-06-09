@@ -21,7 +21,7 @@
         content: "{{key_out.key.private_key}}" #get private key from the above declaration.
         dest: "./bastion-key.pem"
         mode: 0600 #u+rw
-      when: key_out.changed #limit action to when key contents are created OR modified.
+      #when: key_out.changed #limit action to when key contents are created OR modified.
 
     - name: Create security group for bastion host
       ec2_group:
