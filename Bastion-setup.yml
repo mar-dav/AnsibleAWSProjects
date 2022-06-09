@@ -33,6 +33,11 @@
             from_port: 22
             to_port: 22
             cidr_ip: "{{MYIP}}"
+
+          - proto: tcp #Allow HTTP connections to build our beautiful webapp
+            from_port: 80
+            to_port: 80
+            cidr_ip: "{{MYIP}}"
       register: bastionSG_out
 
     - name: Create our Bastion Host

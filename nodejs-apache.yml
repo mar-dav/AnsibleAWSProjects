@@ -5,7 +5,9 @@
   vars:
     repo_url: https://github.com/mar-dav/KPM-Power-threejs-Model.git
     repo_path: /home/ubuntu/KPM
+    repo_build: /home/ubuntu/KPM/dist
     repo_branch: main
+    web_dir: /var/www/html
   tasks:
     - name: "apt update"
       apt:
@@ -52,7 +54,12 @@
         state: present
 
     - name: build Node.js webapp
-      command: npm run dev
+      command: npm run build
       args:
         chdir: "{{ repo_path }}"
+
+    - name: Copy build to /var/www/html
+      copy:
+        src: "{{ repo_build }}"
+        dest: "{{ web_dir }}"
 
