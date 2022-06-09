@@ -1,4 +1,4 @@
 #Add the AWS ami id (VM Image) and set to bastion_ami.
-bastion_ami: ami-0022f774911c1d690
+bastion_ami: ami-0fe23c115c3ba9bac
 region: us-east-2
 MYIP: 72.39.67.16/32
