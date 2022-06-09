@@ -60,6 +60,6 @@
 
     - name: Copy build to /var/www/html
       synchronize:
-        src: /home/ubuntu/KPM/dist
-        dst: /var/www/html
+        src: "{{repo_build}}"
+        dest: "{{web_dir}}"
 
