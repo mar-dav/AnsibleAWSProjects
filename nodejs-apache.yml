@@ -62,5 +62,6 @@
       synchronize:
         src: "{{repo_build}}"
         dest: "{{web_dir}}"
+        recursive: yes
         delete: yes
 
