@@ -1,5 +1,5 @@
 ---
-- name: Setup Bastian Host
+- name: Setup node.js Host
   hosts: localhost
   connection: local
   gather_facts: false
@@ -16,7 +16,7 @@
         region: "{{region}}"
       register: key_out #save output as key_out
 
-    - name: Save private key as bastion-key.pem
+    - name: Save private key as nodejs-key.pem
       copy:
         content: "{{ key_out.key.private_key }}" #get private key from the above declaration.
         dest: "./bastion-key.pem"
@@ -24,35 +24,39 @@
 
     - name: Create security group for bastion host
       ec2_group:
-        name: bastion-host-sg
+        name: nodejs-host-sg
         description: Allow ssh from anywhere within our security group.
         region: "{{region}}"
         vpc_id: "{{vpcid}}"
         rules:
-          - proto: tcp
+          - proto: tcp #Allow SSH
             from_port: 22
             to_port: 22
             cidr_ip: "{{MYIP}}"
-      register: bastionSG_out
+          - proto: tcp
+            from_port: 80
+            to_port: 80
+            cidr_ip: 0.0.0.0/0 #Allow from anywhere
+      register: nodeSG_out
 
-    - name: Create our Bastion Host
+    - name: Create our node.js Host
       ec2:
         key_name: vprofile-key
         instance_type: t2.micro
         region: "{{region}}"
-        image: "{{ bastion_ami }}"
+        image: "{{ bastion_ami }}" #reuse the same ami as the bastion host
         wait: yes #wait until machine is ready
         wait_timeout: 300 #if there is a failure, timeout after 300s
         instance_tags:
           Name: "Bastion_Host"
           Project: KPM interview
           Owner: Mars
-        exact_count: 1 #prevent the creation of multiple bastion machines
+        exact_count: 1 #prevent the creation of multiple machines
         count_tag: #these are the variables exact_count will check against. It will not launch if these tags are already present.
-          Name: "Bastion_Host"
+          Name: "Nodejs_Host"
           Project: KPM interview
           Owner: Mars
-        group_id: "{{bastionSG_out.group_id}}"
-        vpc_subnet_id: "{{pubsub1id}}"
-      register: bastionHost_out
+        group_id: "{{nodeSG_out.group_id}}"
+        vpc_subnet_id: "{{pubsub2id}}"
+      register: nodeHost_out
 
