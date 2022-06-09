@@ -142,3 +142,18 @@
           - dest: 0.0.0.0/0
             gateway_id: "{{ natGW_out.nat_gateway_id }}"
       register: privRT_out
+
+    - debug:
+        var: "{{item}}" #variable of loop
+      loop: #cycle through all the ids we have created & print IDs
+        - vpcout.vpc.id
+        - igw_out.gateway_id
+        - pubRT_out.route_table.id
+        - privRT_out.route_table.id
+        - natGW_out.nat_gateway_id
+        - pubsub1_out.subnet.id
+        - pubsub2_out.subnet.id
+        - pubsub3_out.subnet.id
+        - privsub1_out.subnet.id
+        - privsub2_out.subnet.id
+        - privsub3_out.subnet.id
