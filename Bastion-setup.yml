@@ -14,7 +14,7 @@
       ec2_key: #key declaration
         name: vprofile-key
         region: "{{region}}"
-      register: key_out
+      register: key_out #save output as key_out
 
     - name: Save private key as bastion-key.pem
       copy:

@@ -22,7 +22,7 @@ zone3: us-east-2c
 
 state: present
 
-#Bastion Variables - Merged to single file
+#Bastion Variables - Merged to single file.
 bastion_ami: ami-0fe23c115c3ba9bac
 MYIP: 72.39.67.16/32
 
