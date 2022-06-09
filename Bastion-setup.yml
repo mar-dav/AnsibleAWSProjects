@@ -5,7 +5,7 @@
   gather_facts: false
   tasks:
     - name: Import VPC setup Variable
-      include_vars: vars/bastion_setup #use data from vars/bastion_setup
+      include_vars: vars/vpc_setup #use data from vars/bastion_setup
 
     - name: Import VPC setup variable
       include_vars: vars/output_vars #use the file we generated from vpc-setup.yml on line 176.

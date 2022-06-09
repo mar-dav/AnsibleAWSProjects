@@ -22,5 +22,8 @@ zone3: us-east-2c
 
 state: present
 
+#Bastion Variables
+bastion_ami: ami-0fe23c115c3ba9bac
+MYIP: 72.39.67.16/32
 
 
