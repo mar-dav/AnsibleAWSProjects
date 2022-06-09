@@ -16,3 +16,4 @@
         tenancy: default
         state: "{{state}}"
       register: vpcout #capture output to variable
+      #We will push this to our AWS machine
